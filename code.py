@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Created on Wed Jun 14 23:56:26 2023
 
@@ -7,10 +8,11 @@ Created on Wed Jun 14 23:56:26 2023
 import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
+plt.rcParams['figure.dpi']="200" 
 
 grid_point=100
 domain_size=1
-n_iterations=500
+n_iterations=1000
 kinematic_viscoscity=0.1
 density=2.0
 vel=10
@@ -26,17 +28,20 @@ def main():
     
     X,Y=np.meshgrid(x,y)
     
+    ################## Time Step Limiting ##############
+    
+    
     time_step = min(0.25*element_length*element_length/kinematic_viscoscity,
                   4.0*kinematic_viscoscity/vel/vel)
   
-  ## Initial Conditions ##
+    ## Initial Conditions ##
     
     u_prev=np.zeros_like(X)
     v_prev=np.zeros_like(X)
     p_prev=np.zeros_like(X) 
 
 
-   ## Descritised Differential Operators ##
+    ## Descritised Differential Operators ##
 
     ####################### Central diff method discretized for Square Mesh ###########################
    
@@ -44,7 +49,7 @@ def main():
         diff=np.zeros_like(f)
         diff[1:-1,1:-1]=(
             
-            f[1:-1 , 2: ] - f[1:-1, 0:-2]
+           f[1:-1 , 2: ] - f[1:-1, 0:-2]
             
         )/(
             2*element_length
@@ -88,7 +93,22 @@ def main():
     
     
     for _ in tqdm(range(n_iterations)):
-      
+        
+        
+        u_prev[ 0, :]=0.0
+        u_prev[ :, 0]=0.0
+        u_prev[:, -1]=0.0
+        u_prev[-1, :]=0.0
+        v_prev[ 0, :]=0.0
+        v_prev[ :, 0]=0.0
+        v_prev[ :,-1]=0.0
+        v_prev[-1, :]=0.0
+        
+        
+    
+        u_prev[48:52,0]=vel
+        u_prev[48:52, -1]=vel
+        
        
         u_int=(
             
@@ -122,24 +142,9 @@ def main():
                 )
             )
         
-        #### Velocity BCs (Drichlet) ####
-        u_int[ 0, :]=0.0
-        u_int[ :, 0]=0.0
-        u_int[:, -1]=0.0
-        u_int[-1, :]=0.0
-        v_int[ 0, :]=0.0
-        v_int[ :, 0]=0.0
-        v_int[ :,-1]=0.0
-        v_int[-1, :]=0.0
+       
         
-        u_int[40:60,0]=vel
-        
-        
-        
-        
-        
-        
-        #### Pressure Correction ####
+        ######################### Pressure Correction Equation #############################
         
         RHS=(
             density/time_step
@@ -167,16 +172,18 @@ def main():
                 
             )
             
-        #### Pressure Boundary Conditions (Neumann) ####
+        ######################### Pressure Boundary Conditions (Neumann) #############################
             p_next[:,-1]=p_next[:,-2]
             p_next[0,:]=p_next[1,:]
             p_next[:,0]=p_next[:,1]
             p_next[-1,:]=p_next[0,:]
+            
+           
         
             p_prev=p_next
             
         
-        #### Velocity Correction ####
+        ######################### Velocity Correction Step #############################
         
         u_next=(
             u_int
@@ -194,17 +201,33 @@ def main():
             central_diff_y(p_next)
         )
         
-        #### Velocity BCs (Drichlet) ####
-        u_next[ 0, :]=0.0
-        u_next[ :, 0]=0.0
-        u_next[:, -1]=0.0
-        u_next[-1, :]=0.0
-        v_next[ 0, :]=0.0
-        v_next[ :, 0]=0.0
-        v_next[ :,-1]=0.0
-        v_next[-1, :]=0.0
+       
+        u_next[8:12,40:60]=0
+        v_next[8:12,40:60]=0
         
-        u_next[40:60,0]=vel
+        u_next[18:22,40:60]=0
+        v_next[18:22,40:60]=0
+        
+        u_next[28:32,40:60]=0
+        v_next[28:32,40:60]=0
+        
+        u_next[38:42,40:60]=0
+        v_next[38:42,40:60]=0
+        
+        u_next[48:52,40:60]=0
+        v_next[48:52,40:60]=0
+        
+        u_next[58:62,40:60]=0
+        v_next[58:62,40:60]=0
+        
+        u_next[68:72,40:60]=0
+        v_next[68:72,40:60]=0
+        
+        u_next[78:82,40:60]=0
+        v_next[78:82,40:60]=0
+        
+        u_next[88:92,40:60]=0
+        v_next[88:92,40:60]=0
         
         
         
@@ -212,24 +235,25 @@ def main():
         
         
         
-        #### Advance in time ####
+        
+        
+       
+        
+        ######################### Advance In Time #############################
         
         u_prev=u_next
         v_prev=v_next
         p_prev=p_next
             
     
-        plt.figure()
-        plt.contourf(X,Y,p_next)
-        plt.colorbar()
-    
-        plt.streamplot(X,Y,u_next,v_next,color="red")
-        
-        plt.draw()
-        plt.pause(0.0001)
-        plt.clf()
-        
-        
+      
+   
+    plt.figure()
+     
+    plt.contourf(X,Y,p_next)
+    plt.colorbar()
+
+    plt.streamplot(X,Y,u_next,v_next,color="red",density=3,linewidth=0.5)    
     plt.show()
     
    
@@ -238,5 +262,4 @@ if __name__ =="__main__":
         
         
 
-    
     
