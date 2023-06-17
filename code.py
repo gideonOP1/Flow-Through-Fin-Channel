@@ -8,11 +8,11 @@ Created on Wed Jun 14 23:56:26 2023
 import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
-plt.rcParams['figure.dpi']="200" 
+plt.rcParams['figure.dpi']="500" 
 
 grid_point=100
 domain_size=1
-n_iterations=1000
+n_iterations=500
 kinematic_viscoscity=0.1
 density=2.0
 vel=10
@@ -177,6 +177,7 @@ def main():
             p_next[0,:]=p_next[1,:]
             p_next[:,0]=p_next[:,1]
             p_next[-1,:]=p_next[0,:]
+          \
             
            
         
@@ -201,33 +202,35 @@ def main():
             central_diff_y(p_next)
         )
         
+        
+        ######################### Channel Boundary Conditions #############################
        
-        u_next[8:12,40:60]=0
-        v_next[8:12,40:60]=0
+        u_next[8:12,20:80]=0
+        v_next[8:12,20:80]=0
         
-        u_next[18:22,40:60]=0
-        v_next[18:22,40:60]=0
+        u_next[18:22,20:80]=0   
+        v_next[18:22,20:80]=0
         
-        u_next[28:32,40:60]=0
-        v_next[28:32,40:60]=0
+        u_next[28:32,20:80]=0   
+        v_next[28:32,20:80]=0
         
-        u_next[38:42,40:60]=0
-        v_next[38:42,40:60]=0
+        u_next[38:42,20:80]=0
+        v_next[38:42,20:80]=0
         
-        u_next[48:52,40:60]=0
-        v_next[48:52,40:60]=0
+        u_next[48:52,20:80]=0
+        v_next[48:52,20:80]=0
         
-        u_next[58:62,40:60]=0
-        v_next[58:62,40:60]=0
+        u_next[58:62,20:80]=0
+        v_next[58:62,20:80]=0
         
-        u_next[68:72,40:60]=0
-        v_next[68:72,40:60]=0
+        u_next[68:72,20:80]=0
+        v_next[68:72,20:80]=0
         
-        u_next[78:82,40:60]=0
-        v_next[78:82,40:60]=0
+        u_next[78:82,20:80]=0
+        v_next[78:82,20:80]=0
         
-        u_next[88:92,40:60]=0
-        v_next[88:92,40:60]=0
+        u_next[88:92,20:80]=0
+        v_next[88:92,20:80]=0
         
         
         
@@ -253,7 +256,21 @@ def main():
     plt.contourf(X,Y,p_next)
     plt.colorbar()
 
-    plt.streamplot(X,Y,u_next,v_next,color="red",density=3,linewidth=0.5)    
+    plt.streamplot(X,Y,u_next,v_next,color="red",density=5,linewidth=0.3)  
+    
+    ######################### Channel Boundary Display #############################
+    
+    plt.axhspan(0.08,0.11,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.18,0.21,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.28,0.31,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.38,0.41,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.48,0.51,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.58,0.61,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.68,0.71,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.78,0.81,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    plt.axhspan(0.88,0.91,0.25,0.8 , color='black', alpha=0.75, lw=0.1)
+    
+    
     plt.show()
     
    
@@ -262,4 +279,6 @@ if __name__ =="__main__":
         
         
 
+    
+    
     
