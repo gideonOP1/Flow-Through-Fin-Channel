@@ -1,17 +1,10 @@
 # Flow-Through-A-Fin-Channel
-## A Numerical Solution to a problem of flow entering an enclosed chamber implemented in pyhton3 with numpy and matplotlib.
-Numerical solution of Navier Stokes equation in 2D is used to solve the problem. A projection method which decouples the pressure and advection terms is implemented using FTCS (Forward in Time , Central in Space) scheme. 
+This is a simulation of an incompressible fluid flowing through a set of channels written in Python by using NumPy and MatPlotLib libraries
 
-SOME DETAILS
+## Brief Details
+A *projection method* which decouples the pressure gradient and the advection/diffusion terms of the Navier Stokes Equation is used to solve the problem. A *Forward in time and Central in Space (FTCS) scheme* is employed to solve ifferential equations numerically. A time step limit is implemented which prevents the numerical solution to become unstable. *Drichlet Boundary Conditions* are used for Velocity and *Neumann Boundary Conditions* are used for Pressure. *tqdm* library is used to monitor the iterations.
 
-Grid Size = 100x100 Units
-
-Domain Size = 1 Units 
-
-No of Iterations =600
-
-Kinematic Viscoscity=0.1
-
-Density=2.0
-
-Velocity of entrance=10 
+## References
+[12 Steps to Navier Stokes by Prof Lorena Barba] (https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/)
+[uCFD - 4 Steps To Navier Stokes by Prof Tony Saad] (http://www.tonysaad.net/ucfd/)
+[Solving the Navier-Stokes equations in Python] (https://www.youtube.com/watch?v=BQLvNLgMTQE&ab_channel=MachineLearning%26Simulation)
