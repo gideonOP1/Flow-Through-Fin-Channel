@@ -6,5 +6,7 @@ A *projection method* which decouples the pressure gradient and the advection/di
 
 ## References
 [12 Steps to Navier Stokes by Prof Lorena Barba] (https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/)
+
 [uCFD - 4 Steps To Navier Stokes by Prof Tony Saad] (http://www.tonysaad.net/ucfd/)
+
 [Solving the Navier-Stokes equations in Python] (https://www.youtube.com/watch?v=BQLvNLgMTQE&ab_channel=MachineLearning%26Simulation)
